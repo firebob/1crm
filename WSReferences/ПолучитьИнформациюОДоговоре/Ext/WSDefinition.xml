@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+		xmlns:soap12bind="http://schemas.xmlsoap.org/wsdl/soap12/"
+		xmlns:soapbind="http://schemas.xmlsoap.org/wsdl/soap/"
+		xmlns:tns="VBC"
+		xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+		xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		xmlns:xsd1="VBC"
+		name="ValidateBarCode"
+		targetNamespace="VBC">
+	<types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+				xmlns:xs1="VBC"
+				targetNamespace="VBC"
+				elementFormDefault="qualified">
+			<xs:element name="CheckBarcode">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="BarCode"
+								type="xs:string"
+								nillable="true"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CheckBarcodeResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="return"
+								type="xs:string"
+								nillable="true"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:schema>
+	</types>
+	<message name="CheckBarcodeRequestMessage">
+		<part name="parameters"
+				element="tns:CheckBarcode"/>
+	</message>
+	<message name="CheckBarcodeResponseMessage">
+		<part name="parameters"
+				element="tns:CheckBarcodeResponse"/>
+	</message>
+	<portType name="ValidateBarCodePortType">
+		<operation name="CheckBarcode">
+			<input name="CheckBarcodeRequest"
+					message="tns:CheckBarcodeRequestMessage"/>
+			<output name="CheckBarcodeResponse"
+					message="tns:CheckBarcodeResponseMessage"/>
+		</operation>
+	</portType>
+	<binding name="ValidateBarCodeSoapBinding"
+			type="tns:ValidateBarCodePortType">
+		<soapbind:binding style="document"
+				transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="CheckBarcode">
+			<soapbind:operation style="document"
+					soapAction="VBC#ValidateBarCode:CheckBarcode"/>
+			<input>
+				<soapbind:body use="literal"/>
+			</input>
+			<output>
+				<soapbind:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<binding name="ValidateBarCodeSoap12Binding"
+			type="tns:ValidateBarCodePortType">
+		<soap12bind:binding style="document"
+				transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="CheckBarcode">
+			<soap12bind:operation style="document"
+					soapAction="VBC#ValidateBarCode:CheckBarcode"/>
+			<input>
+				<soap12bind:body use="literal"/>
+			</input>
+			<output>
+				<soap12bind:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="ValidateBarCode">
+		<port name="ValidateBarCodeSoap"
+				binding="tns:ValidateBarCodeSoapBinding">
+			<documentation> 
+				<wsi:Claim xmlns:wsi="http://ws-i.org/schemas/conformanceClaim/"
+						conformsTo="http://ws-i.org/profiles/basic/1.1"/>
+			</documentation>
+			<soapbind:address location="http://192.168.10.61/CRMTest/ws/ws1.1cws"/>
+		</port>
+		<port name="ValidateBarCodeSoap12"
+				binding="tns:ValidateBarCodeSoap12Binding">
+			<soap12bind:address location="http://192.168.10.61/CRMTest/ws/ws1.1cws"/>
+		</port>
+	</service>
+</definitions>
